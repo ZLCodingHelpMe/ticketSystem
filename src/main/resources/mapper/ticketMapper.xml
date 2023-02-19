@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zl.mapper.TicketMapper">
+
+    <select id="queryTicket" parameterType="String" resultType="Ticket">
+
+        SELECT
+        *
+        FROM
+        `ticket` t
+        WHERE number = #{number}
+
+    </select>
+
+    <update id="updateCinemaStatus">
+
+        UPDATE
+        `ticket` t
+        SET
+        t.`take_ticket_time` = NOW(),
+        t.`take_ticket_status` = #{status}
+        WHERE t.`take_ticket_status` = 0
+        AND t.`number` = #{number}
+
+    </update>
+
+    <select id="totalTime" resultType="Integer">
+
+        SELECT
+        TIMESTAMPDIFF(MINUTE, #{timeStart}, #{timeEnd})
+        FROM
+        `ticket` t
+        WHERE t.`number` = #{number}
+
+    </select>
+
+</mapper>
